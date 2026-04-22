@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HOLON</title>
+  <style>
+    :root{
+      --bg:#f4f7fb;
+      --navy:#22344a;
+      --navy-2:#30465f;
+      --slate:#5b6b7b;
+      --text:#223044;
+      --muted:#6f8092;
+      --line:#d9e1ea;
+      --soft:#eef3f8;
+      --chip:#f8fafc;
+      --green:#2f8a67;
+      --green-soft:#e8f4ee;
+      --white:#ffffff;
+      --shadow:0 20px 60px rgba(24,39,75,.10), 0 8px 20px rgba(24,39,75,.06);
+      --radius:24px;
+      --radius-sm:14px;
+      --max:1180px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(47,138,103,.06), transparent 28%),
+        radial-gradient(circle at top right, rgba(34,52,74,.05), transparent 34%),
+        linear-gradient(180deg, #f8fbfd 0%, var(--bg) 100%);
+      color:var(--text);
+      min-height:100vh;
+    }
+
+    .page{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:32px 20px 48px;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:24px;
+      margin-bottom:24px;
+      flex-wrap:wrap;
+    }
+
+    .brand h1{
+      margin:0;
+      font-family: "Libre Baskerville", Georgia, serif;
+      font-size:46px;
+      line-height:1;
+      letter-spacing:.03em;
+      color:var(--navy);
+    }
+
+    .brand p{
+      margin:10px 0 0;
+      color:var(--muted);
+      font-size:16px;
+    }
+
+    .pitch{
+      max-width:520px;
+      background:rgba(255,255,255,.72);
+      border:1px solid rgba(217,225,234,.85);
+      border-radius:18px;
+      padding:16px 18px;
+      backdrop-filter: blur(10px);
+      color:var(--slate);
+      line-height:1.5;
+      font-size:14px;
+    }
+
+    .pitch strong{color:var(--navy)}
+
+    .stage-row{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(260px, 1fr));
+      gap:22px;
+      align-items:start;
+    }
+
+    .panel{
+      min-width:0;
+    }
+
+    .panel-label{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin:0 0 12px;
+      color:var(--slate);
+      font-size:14px;
+      font-weight:600;
+    }
+
+    .dots{
+      letter-spacing:2px;
+      color:#98a6b5;
+      font-weight:700;
+      font-size:16px;
+    }
+
+    .phone{
+      background:var(--white);
+      border:2px solid #16212d;
+      border-radius:34px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      min-height:710px;
+      position:relative;
+    }
+
+    .phone::before{
+      content:"";
+      position:absolute;
+      top:12px;
+      left:50%;
+      transform:translateX(-50%);
+      width:86px;
+      height:11px;
+      border-radius:999px;
+      background:#334559;
+      z-index:5;
+      opacity:.8;
+    }
+
+    .header{
+      background:var(--navy);
+      color:white;
+      padding:40px 24px 14px;
+    }
+
+    .header-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:18px;
+    }
+
+    .logo{
+      font-weight:800;
+      letter-spacing:.08em;
+      font-size:15px;
+    }
+
+    .session{
+      color:rgba(255,255,255,.6);
+      font-size:12px;
+    }
+
+    .stepbar{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:12px;
+      padding-bottom:2px;
+    }
+
+    .step-item{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:#adc0d4;
+      position:relative;
+      padding-top:10px;
+      font-weight:700;
+      white-space:nowrap;
+    }
+
+    .step-item::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      height:2px;
+      background:rgba(255,255,255,.16);
+      border-radius:999px;
+    }
+
+    .step-item.active{
+      color:#ffffff;
+    }
+
+    .step-item.active::before{
+      background:#d7e2ee;
+    }
+
+    .screen{
+      padding:22px 18px 18px;
+      background:linear-gradient(180deg,#f8fbfd 0%, #f4f7fb 100%);
+      min-height:610px;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .eyebrow{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      font-weight:700;
+      color:#7b8d9f;
+      margin-bottom:8px;
+    }
+
+    .eyebrow .dot{
+      width:8px;
+      height:8px;
+      border-radius:999px;
+      background:#8ea3b7;
+      display:inline-block;
+    }
+
+    .eyebrow.green{
+      color:var(--green);
+    }
+
+    .eyebrow.green .dot{
+      background:var(--green);
+      box-shadow:0 0 0 4px rgba(47,138,103,.12);
+    }
+
+    .title{
+      margin:0;
+      font-size:20px;
+      line-height:1.25;
+      letter-spacing:-.02em;
+      color:var(--navy);
+    }
+
+    .subtext{
+      margin:8px 0 18px;
+      color:var(--muted);
+      line-height:1.55;
+      font-size:14px;
+    }
+
+    .input{
+      width:100%;
+      border:2px solid #b7c4d0;
+      border-radius:15px;
+      padding:14px 14px;
+      font-size:15px;
+      background:white;
+      color:var(--text);
+      outline:none;
+      transition:.18s ease;
+    }
+
+    .input:focus{
+      border-color:var(--navy-2);
+      box-shadow:0 0 0 4px rgba(48,70,95,.08);
+    }
+
+    .group{
+      margin-top:16px;
+    }
+
+    .group-label{
+      margin:0 0 10px;
+      font-size:13px;
+      font-weight:700;
+      color:var(--slate);
+      text-transform:none;
+    }
+
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .chip{
+      appearance:none;
+      border:1.5px solid #cad5df;
+      background:var(--chip);
+      color:var(--navy-2);
+      padding:10px 13px;
+      border-radius:999px;
+      font-size:14px;
+      font-weight:600;
+      cursor:pointer;
+      transition:.16s ease;
+      line-height:1;
+    }
+
+    .chip:hover{
+      border-color:#98a9ba;
+      transform:translateY(-1px);
+    }
+
+    .chip.selected{
+      background:var(--navy-2);
+      border-color:var(--navy-2);
+      color:white;
+    }
+
+    .selected-box{
+      margin-top:18px;
+      border-radius:18px;
+      background:#e8eef5;
+      padding:14px;
+    }
+
+    .selected-box .group-label{
+      margin-bottom:10px;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:#6f8194;
+    }
+
+    .question{
+      background:var(--soft);
+      border-radius:18px;
+      padding:14px;
+      margin-bottom:14px;
+      border:1px solid #dde6ee;
+    }
+
+    .question h4{
+      margin:0 0 12px;
+      font-size:15px;
+      line-height:1.4;
+      color:var(--navy);
+    }
+
+    .option{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      background:white;
+      border:1.5px solid #d7e0e9;
+      border-radius:14px;
+      padding:11px 12px;
+      margin-top:9px;
+      cursor:pointer;
+      transition:.15s ease;
+      font-size:14px;
+      color:var(--text);
+    }
+
+    .option:hover{
+      border-color:#a9b8c7;
+    }
+
+    .option.selected{
+      border-color:var(--navy-2);
+      box-shadow:0 0 0 3px rgba(48,70,95,.08);
+      background:#fbfdff;
+    }
+
+    .radio{
+      width:16px;
+      height:16px;
+      border-radius:999px;
+      border:1.8px solid #93a4b5;
+      position:relative;
+      flex:none;
+    }
+
+    .option.selected .radio{
+      border-color:var(--navy-2);
+    }
+
+    .option.selected .radio::after{
+      content:"";
+      position:absolute;
+      inset:3px;
+      border-radius:999px;
+      background:var(--navy-2);
+    }
+
+    .dynamic-card{
+      background:white;
+      border:1.5px solid #cbd7e2;
+      border-radius:20px;
+      padding:16px;
+      box-shadow:0 14px 34px rgba(32,50,72,.05);
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      border-radius:999px;
+      padding:6px 10px;
+      background:#e8eef5;
+      color:#5a6d80;
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      margin-bottom:10px;
+    }
+
+    .dynamic-title{
+      margin:0;
+      font-size:20px;
+      line-height:1.2;
+      letter-spacing:-.025em;
+      color:var(--navy);
+    }
+
+    .dynamic-body{
+      margin:12px 0 0;
+      color:#4f6275;
+      line-height:1.65;
+      font-size:14px;
+    }
+
+    .support{
+      margin-top:14px;
+      background:#edf3f8;
+      border-left:3px solid #9fb1c4;
+      border-radius:12px;
+      padding:12px 12px 12px 13px;
+      color:#516477;
+      font-size:13.5px;
+      line-height:1.55;
+      font-style:italic;
+    }
+
+    .mini-label{
+      margin:14px 0 10px;
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      font-weight:800;
+      color:#7c8d9f;
+    }
+
+    .footer-line{
+      margin-top:14px;
+      padding-top:12px;
+      border-top:1px solid #e1e8ef;
+      color:#617487;
+      font-size:12.5px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .footer-line::before{
+      content:"";
+      width:8px;
+      height:8px;
+      border-radius:999px;
+      background:#93a8bc;
+      display:inline-block;
+      flex:none;
+    }
+
+    .related{
+      margin-top:16px;
+    }
+
+    .linkish{
+      display:inline-block;
+      margin-top:10px;
+      color:#6a7d90;
+      font-size:13px;
+      text-decoration:none;
+      border-bottom:1px dashed #b7c4d0;
+      padding-bottom:2px;
+    }
+
+    .impact-card{
+      background:var(--green-soft);
+      border:1.5px solid #b8d9c9;
+      border-radius:20px;
+      padding:16px;
+      color:#295b47;
+      box-shadow:0 14px 34px rgba(47,138,103,.08);
+    }
+
+    .impact-title{
+      margin:0;
+      color:var(--green);
+      font-size:17px;
+      line-height:1.35;
+      letter-spacing:-.02em;
+    }
+
+    .impact-body{
+      margin:8px 0 0;
+      font-size:14px;
+      line-height:1.65;
+      color:#486d5b;
+    }
+
+    .section-label{
+      margin:16px 0 10px;
+      color:#6b7f91;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      font-weight:800;
+    }
+
+    .action-card{
+      display:flex;
+      gap:12px;
+      background:white;
+      border:1.5px solid #d7e3dc;
+      border-radius:18px;
+      padding:14px;
+      margin-bottom:12px;
+    }
+
+    .num{
+      width:28px;
+      height:28px;
+      flex:none;
+      border-radius:999px;
+      background:var(--green);
+      color:white;
+      display:grid;
+      place-items:center;
+      font-weight:800;
+      font-size:13px;
+      margin-top:1px;
+    }
+
+    .action-card p{
+      margin:0;
+      color:var(--text);
+      line-height:1.5;
+      font-size:14px;
+      font-weight:600;
+    }
+
+    .bottom-actions{
+      display:flex;
+      gap:10px;
+      margin-top:auto;
+      padding-top:12px;
+    }
+
+    .btn{
+      appearance:none;
+      border:none;
+      border-radius:16px;
+      padding:15px 16px;
+      font-weight:800;
+      font-size:15px;
+      cursor:pointer;
+      transition:.18s ease;
+    }
+
+    .btn:disabled{
+      opacity:.45;
+      cursor:not-allowed;
+      transform:none;
+    }
+
+    .btn-primary{
+      background:var(--navy-2);
+      color:white;
+      width:100%;
+      box-shadow:0 10px 20px rgba(48,70,95,.18);
+    }
+
+    .btn-primary.green{
+      background:var(--green);
+      box-shadow:0 12px 22px rgba(47,138,103,.18);
+    }
+
+    .btn-primary:hover:not(:disabled),
+    .btn-secondary:hover{
+      transform:translateY(-1px);
+    }
+
+    .btn-secondary{
+      flex:1;
+      border:1.5px solid #cad5df;
+      background:white;
+      color:var(--slate);
+    }
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:26px;
+      transform:translateX(-50%) translateY(20px);
+      background:rgba(34,52,74,.96);
+      color:white;
+      padding:13px 16px;
+      border-radius:14px;
+      font-size:14px;
+      opacity:0;
+      pointer-events:none;
+      transition:.22s ease;
+      box-shadow:var(--shadow);
+      z-index:20;
+    }
+
+    .toast.show{
+      opacity:1;
+      transform:translateX(-50%) translateY(0);
+    }
+
+    @media (max-width:1120px){
+      .stage-row{
+        grid-template-columns:repeat(2, minmax(260px, 1fr));
+      }
+    }
+
+    @media (max-width:700px){
+      .page{padding:18px 12px 26px}
+      .stage-row{grid-template-columns:1fr}
+      .brand h1{font-size:38px}
+      .pitch{max-width:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="topbar">
+      <div class="brand">
+        <h1>HOLON</h1>
+        <p>System Intelligence for Organizations</p>
+      </div>
+      <div class="pitch">
+        <strong>Signals → Context → System Dynamics → Interventions.</strong><br>
+        A calm, system-intelligent interface for translating scattered organizational signals into high-leverage action.
+      </div>
+    </div>
+
+    <div class="stage-row">
+      <section class="panel">
+        <div class="panel-label"><span class="dots">⋮⋮</span> 1 · Signals</div>
+        <div class="phone">
+          <div class="header">
+            <div class="header-top">
+              <div class="logo">HOLON</div>
+              <div class="session">New session</div>
+            </div>
+            <div class="stepbar">
+              <div class="step-item active">Signals</div>
+              <div class="step-item">Context</div>
+              <div class="step-item">Dynamics</div>
+              <div class="step-item">Interventions</div>
+            </div>
+          </div>
+          <div class="screen">
+            <h2 class="title">What signals are emerging?</h2>
+            <p class="subtext">Describe what you’re noticing across the system — patterns, friction, or breakdowns.</p>
+
+            <input id="freeform" class="input" type="text" placeholder="e.g. teams are pulling in different directions..." />
+
+            <div class="group">
+              <p class="group-label">Alignment</p>
+              <div class="chips" id="group-alignment"></div>
+            </div>
+
+            <div class="group">
+              <p class="group-label">Clarity</p>
+              <div class="chips" id="group-clarity"></div>
+            </div>
+
+            <div class="group">
+              <p class="group-label">Execution</p>
+              <div class="chips" id="group-execution"></div>
+            </div>
+
+            <div class="selected-box">
+              <div class="group-label">Selected</div>
+              <div class="chips" id="selected-signals"></div>
+            </div>
+
+            <div class="bottom-actions">
+              <button id="to-step-2" class="btn btn-primary" disabled>See how this connects →</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-label"><span class="dots">⋮⋮</span> 2 · Context</div>
+        <div class="phone">
+          <div class="header">
+            <div class="header-top">
+              <div class="logo">HOLON</div>
+              <div class="session">Context layer</div>
+            </div>
+            <div class="stepbar">
+              <div class="step-item">Signals</div>
+              <div class="step-item active">Context</div>
+              <div class="step-item">Dynamics</div>
+              <div class="step-item">Interventions</div>
+            </div>
+          </div>
+          <div class="screen">
+            <h2 class="title">Understand the context</h2>
+            <p class="subtext">A few inputs to understand where and how these signals are taking shape.</p>
+
+            <div class="question">
+              <h4>How long has this been building?</h4>
+              <div id="q-duration"></div>
+            </div>
+
+            <div class="question">
+              <h4>Where is this most visible?</h4>
+              <div id="q-visibility"></div>
+            </div>
+
+            <div class="question">
+              <h4>Who is most affected?</h4>
+              <div id="q-affected"></div>
+            </div>
+
+            <div class="bottom-actions">
+              <button class="btn btn-secondary back" data-back="1">Back</button>
+              <button id="to-step-3" class="btn btn-primary" disabled>Continue →</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-label"><span class="dots">⋮⋮</span> 3 · Dynamics</div>
+        <div class="phone">
+          <div class="header">
+            <div class="header-top">
+              <div class="logo">HOLON</div>
+              <div class="session">Pattern analysis</div>
+            </div>
+            <div class="stepbar">
+              <div class="step-item">Signals</div>
+              <div class="step-item">Context</div>
+              <div class="step-item active">Dynamics</div>
+              <div class="step-item">Interventions</div>
+            </div>
+          </div>
+          <div class="screen">
+            <h2 class="title">System dynamics at play</h2>
+            <p class="subtext">These patterns are likely driving the current state of the system.</p>
+
+            <div class="dynamic-card">
+              <div class="badge">Primary Dynamic</div>
+              <h3 id="dynamic-title" class="dynamic-title">System Friction Across Priorities</h3>
+              <p id="dynamic-body" class="dynamic-body"></p>
+              <div id="dynamic-support" class="support"></div>
+
+              <div class="mini-label">Signals reinforcing this pattern</div>
+              <div class="chips" id="dynamic-tags"></div>
+
+              <div class="footer-line">This is a pattern — not a one-time issue.</div>
+            </div>
+
+            <div class="related">
+              <div class="mini-label">Related dynamics</div>
+              <div class="chips" id="related-dynamics"></div>
+              <a href="#" class="linkish" onclick="event.preventDefault(); showToast('System map coming soon');">View system map (coming soon)</a>
+            </div>
+
+            <div class="bottom-actions">
+              <button class="btn btn-secondary back" data-back="2">Back</button>
+              <button id="to-step-4" class="btn btn-primary green">Where do we intervene? →</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-label"><span class="dots">⋮⋮</span> 4 · Interventions</div>
+        <div class="phone">
+          <div class="header">
+            <div class="header-top">
+              <div class="logo">HOLON</div>
+              <div class="session">Action layer</div>
+            </div>
+            <div class="stepbar">
+              <div class="step-item">Signals</div>
+              <div class="step-item">Context</div>
+              <div class="step-item">Dynamics</div>
+              <div class="step-item active">Interventions</div>
+            </div>
+          </div>
+          <div class="screen">
+            <div class="eyebrow green"><span class="dot"></span><span id="intervention-eyebrow">System Friction Across Priorities</span></div>
+            <h2 class="title">Where intervention will have the greatest impact</h2>
+
+            <div class="impact-card">
+              <h3 class="impact-title">This is fixable — and high leverage</h3>
+              <p class="impact-body">Change accelerates when direction, ownership, and reinforcement mechanisms are aligned — not just communicated.</p>
+            </div>
+
+            <div class="section-label">Highest-leverage interventions</div>
+            <div id="interventions-list"></div>
+
+            <a href="#" class="linkish" onclick="event.preventDefault(); showToast('Impact tracking coming soon');">Track impact over time (coming soon)</a>
+
+            <div class="bottom-actions">
+              <button class="btn btn-secondary" onclick="showToast('Prototype only — export flow coming soon');">Save report</button>
+              <button class="btn btn-secondary" onclick="showToast('Prototype only — sharing coming soon');">Share</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+    const state = {
+      selectedSignals: [],
+      freeformSignal: "",
+      duration: "",
+      visibility: "",
+      affected: "",
+      dynamic: null
+    };
+
+    const groups = {
+      alignment: ["Conflicting priorities", "Leadership gaps", "Strategy unclear", "Siloed decisions"],
+      clarity: ["Unclear ownership", "Role confusion", "Mixed messages", "Shifting goals"],
+      execution: ["Missed targets", "Slow decisions", "Cross-team friction", "Bottlenecks"]
+    };
+
+    const options = {
+      duration: ["Weeks — still emerging", "A few months", "Six months or more", "As long as I can remember"],
+      visibility: ["Within a team", "Across functions", "Leadership layer", "Customer-facing"],
+      affected: ["One team", "Cross-functional teams", "Leadership", "Whole organization"]
+    };
+
+    const dynamics = [
+      {
+        key: "role",
+        title: "Role Ambiguity & Diffused Accountability",
+        body: "When ownership is unclear, decisions stall and execution fragments. Priorities are interpreted differently across teams, creating hidden misalignment that compounds over time.",
+        support: "Without clear accountability, teams optimize locally — often at the expense of collective outcomes.",
+        signals: ["Unclear ownership", "Role confusion", "Slow decisions", "Cross-team friction", "Leadership gaps"],
+        related: ["Strategy–Execution Disconnect", "Fragmented Leadership Alignment"],
+        interventions: [
+          "Clarify how decisions are owned across the top recurring friction points",
+          "Identify where accountability is diffused across teams — and why",
+          "Establish visible ownership and reinforcement mechanisms"
+        ]
+      },
+      {
+        key: "strategy",
+        title: "Strategy–Execution Disconnect",
+        body: "Organizational direction is not translating into aligned day-to-day action. Competing interpretations of priorities are creating drag between leadership intent and delivery.",
+        support: "When strategy is interpreted differently at each layer, execution loses coherence.",
+        signals: ["Conflicting priorities", "Strategy unclear", "Shifting goals", "Missed targets", "Siloed decisions"],
+        related: ["Role Ambiguity & Diffused Accountability", "Fragmented Leadership Alignment"],
+        interventions: [
+          "Clarify how priorities translate into team-level decisions",
+          "Identify where interpretation diverges across functions — and why",
+          "Establish visible ownership and reinforcement mechanisms"
+        ]
+      },
+      {
+        key: "leadership",
+        title: "Fragmented Leadership Alignment",
+        body: "Leaders and teams are operating from inconsistent assumptions, creating friction, hesitation, and uneven execution across the system.",
+        support: "Misalignment at the top is often experienced as confusion everywhere else.",
+        signals: ["Mixed messages", "Leadership gaps", "Cross-team friction", "Siloed decisions"],
+        related: ["Strategy–Execution Disconnect", "Role Ambiguity & Diffused Accountability"],
+        interventions: [
+          "Surface where leaders are sending mixed signals",
+          "Align decision criteria across core leadership groups",
+          "Reinforce a shared operating message through visible behaviors"
+        ]
+      },
+      {
+        key: "fallback",
+        title: "System Friction Across Priorities",
+        body: "The signals suggest a broader coordination issue across priorities, ownership, and execution.",
+        support: "The system is showing strain where alignment and follow-through should connect.",
+        signals: [],
+        related: ["Role Ambiguity & Diffused Accountability", "Strategy–Execution Disconnect"],
+        interventions: [
+          "Clarify current priorities and tradeoffs",
+          "Identify where coordination is breaking down",
+          "Reinforce ownership at the points of highest friction"
+        ]
+      }
+    ];
+
+    function renderChips(containerId, items){
+      const el = document.getElementById(containerId);
+      el.innerHTML = "";
+      items.forEach(item => {
+        const btn = document.createElement("button");
+        btn.className = "chip" + (state.selectedSignals.includes(item) ? " selected" : "");
+        btn.textContent = item;
+        btn.onclick = () => toggleSignal(item);
+        el.appendChild(btn);
+      });
+    }
+
+    function renderAllSignalGroups(){
+      renderChips("group-alignment", groups.alignment);
+      renderChips("group-clarity", groups.clarity);
+      renderChips("group-execution", groups.execution);
+      renderSelectedSignals();
+      updateSignalCTA();
+      updateDynamics();
+      updateInterventions();
+    }
+
+    function renderSelectedSignals(){
+      const wrap = document.getElementById("selected-signals");
+      wrap.innerHTML = "";
+      if (!state.selectedSignals.length) {
+        const note = document.createElement("div");
+        note.style.color = "#6f8092";
+        note.style.fontSize = "14px";
+        note.textContent = "Select signals to build the pattern view.";
+        wrap.appendChild(note);
+        return;
+      }
+      state.selectedSignals.forEach(item => {
+        const tag = document.createElement("button");
+        tag.className = "chip selected";
+        tag.textContent = "✓ " + item;
+        tag.onclick = () => toggleSignal(item);
+        wrap.appendChild(tag);
+      });
+    }
+
+    function toggleSignal(item){
+      const exists = state.selectedSignals.includes(item);
+      state.selectedSignals = exists
+        ? state.selectedSignals.filter(s => s !== item)
+        : [...state.selectedSignals, item];
+      renderAllSignalGroups();
+    }
+
+    function updateSignalCTA(){
+      const freeform = state.freeformSignal.trim().length > 0;
+      const count = state.selectedSignals.length;
+      document.getElementById("to-step-2").disabled = !((count >= 2) || (freeform && count >= 1));
+    }
+
+    function renderQuestionGroup(containerId, items, stateKey){
+      const wrap = document.getElementById(containerId);
+      wrap.innerHTML = "";
+      items.forEach(item => {
+        const option = document.createElement("div");
+        option.className = "option" + (state[stateKey] === item ? " selected" : "");
+        option.onclick = () => {
+          state[stateKey] = item;
+          renderQuestionGroup(containerId, items, stateKey);
+          updateContextCTA();
+        };
+
+        const radio = document.createElement("div");
+        radio.className = "radio";
+        const text = document.createElement("div");
+        text.textContent = item;
+
+        option.appendChild(radio);
+        option.appendChild(text);
+        wrap.appendChild(option);
+      });
+    }
+
+    function updateContextCTA(){
+      document.getElementById("to-step-3").disabled = !(state.duration && state.visibility && state.affected);
+    }
+
+    function getMatchCount(dynamic){
+      return dynamic.signals.filter(s => state.selectedSignals.includes(s)).length;
+    }
+
+    function getPrimaryDynamic(){
+      const ordered = [
+        dynamics.find(d => d.key === "role"),
+        dynamics.find(d => d.key === "strategy"),
+        dynamics.find(d => d.key === "leadership")
+      ];
+
+      for (const d of ordered){
+        if (getMatchCount(d) >= 2) return d;
+      }
+      return dynamics.find(d => d.key === "fallback");
+    }
+
+    function updateDynamics(){
+      const primary = getPrimaryDynamic();
+      state.dynamic = primary;
+
+      document.getElementById("dynamic-title").textContent = primary.title;
+      document.getElementById("dynamic-body").textContent = primary.body;
+      document.getElementById("dynamic-support").textContent = primary.support;
+
+      const tags = document.getElementById("dynamic-tags");
+      tags.innerHTML = "";
+      const matched = primary.key === "fallback"
+        ? state.selectedSignals.slice(0, 3)
+        : primary.signals.filter(s => state.selectedSignals.includes(s)).slice(0, 3);
+
+      (matched.length ? matched : ["Signals still emerging"]).forEach(item => {
+        const tag = document.createElement("div");
+        tag.className = "chip";
+        tag.style.cursor = "default";
+        tag.textContent = item;
+        tags.appendChild(tag);
+      });
+
+      const related = document.getElementById("related-dynamics");
+      related.innerHTML = "";
+      primary.related.forEach(item => {
+        const tag = document.createElement("div");
+        tag.className = "chip";
+        tag.style.cursor = "default";
+        tag.textContent = item;
+        related.appendChild(tag);
+      });
+    }
+
+    function updateInterventions(){
+      const primary = state.dynamic || getPrimaryDynamic();
+      document.getElementById("intervention-eyebrow").textContent = primary.title;
+
+      const list = document.getElementById("interventions-list");
+      list.innerHTML = "";
+
+      primary.interventions.forEach((item, i) => {
+        const card = document.createElement("div");
+        card.className = "action-card";
+
+        const num = document.createElement("div");
+        num.className = "num";
+        num.textContent = String(i + 1);
+
+        const text = document.createElement("p");
+        text.textContent = item;
+
+        card.appendChild(num);
+        card.appendChild(text);
+        list.appendChild(card);
+      });
+    }
+
+    function showToast(message){
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => toast.classList.remove("show"), 2200);
+    }
+
+    document.getElementById("freeform").addEventListener("input", (e) => {
+      state.freeformSignal = e.target.value;
+      updateSignalCTA();
+    });
+
+    document.getElementById("to-step-2").onclick = () => {
+      document.querySelectorAll(".panel")[1].scrollIntoView({behavior:"smooth", block:"start", inline:"nearest"});
+    };
+
+    document.getElementById("to-step-3").onclick = () => {
+      updateDynamics();
+      updateInterventions();
+      document.querySelectorAll(".panel")[2].scrollIntoView({behavior:"smooth", block:"start", inline:"nearest"});
+    };
+
+    document.getElementById("to-step-4").onclick = () => {
+      updateInterventions();
+      document.querySelectorAll(".panel")[3].scrollIntoView({behavior:"smooth", block:"start", inline:"nearest"});
+    };
+
+    document.querySelectorAll(".back").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const target = Number(btn.dataset.back) - 1;
+        document.querySelectorAll(".panel")[target].scrollIntoView({behavior:"smooth", block:"start", inline:"nearest"});
+      });
+    });
+
+    renderQuestionGroup("q-duration", options.duration, "duration");
+    renderQuestionGroup("q-visibility", options.visibility, "visibility");
+    renderQuestionGroup("q-affected", options.affected, "affected");
+    renderAllSignalGroups();
+    updateContextCTA();
+  </script>
+</body>
+</html>
